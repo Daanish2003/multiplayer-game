@@ -2,10 +2,17 @@
   "name": "puzzle_game",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "catalog": {
+      "@types/node": "^22.13.11",
+      "typescript": "^5.8.2",
+      "zod": "4.1.12"
+    }
+  },
   "scripts": {
     "check": "oxlint",
     "dev": "turbo dev",

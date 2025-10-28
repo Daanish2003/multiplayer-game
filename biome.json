@@ -1,10 +1,6 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "vcs": {
-    "enabled": false,
-    "clientKind": "git",
-    "useIgnoreFile": false
-  },
+  "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
   "files": {
     "ignoreUnknown": false,
     "includes": [
@@ -27,35 +23,24 @@
       "!**/.source"
     ]
   },
-  "formatter": {
-    "enabled": true,
-    "indentStyle": "tab"
-  },
-  "assist": {
-    "actions": {
-      "source": {
-        "organizeImports": "on"
-      }
-    }
-  },
+  "formatter": { "enabled": true, "indentStyle": "tab" },
+  "assist": { "actions": { "source": { "organizeImports": "on", "useSortedAttributes": "off"} } },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
-      "correctness": {
-        "useExhaustiveDependencies": "info"
+      "a11y": {
+        "noSvgWithoutTitle": "off"
       },
+      "suspicious": {
+        "noConsole": "off"
+      },
+      "recommended": true,
+      "correctness": { "useExhaustiveDependencies": "info" },
       "nursery": {
         "useSortedClasses": {
           "level": "warn",
           "fix": "safe",
-          "options": {
-            "functions": [
-              "clsx",
-              "cva",
-              "cn"
-            ]
-          }
+          "options": { "functions": ["clsx", "cva", "cn"] }
         }
       },
       "style": {
@@ -72,13 +57,6 @@
       }
     }
   },
-  "javascript": {
-    "formatter": {
-      "quoteStyle": "double"
-    }
-  },
-  "extends": [
-    "ultracite/core",
-    "ultracite/next"
-  ]
+  "javascript": { "formatter": { "quoteStyle": "double" } },
+  "extends": ["ultracite/core", "ultracite/next"]
 }
