@@ -106,7 +106,6 @@ export function useGameSocket(roomId: string) {
 
 		return () => {
 			socket.off("connect", handleConnect);
-			socket.off("room-update");
 			socket.off("room-state");
 			socket.off("cell-submitted");
 			socket.off("restriction-active");
@@ -116,7 +115,6 @@ export function useGameSocket(roomId: string) {
 			socket.off("left-room");
 			socket.off("time-travel-update");
 			socket.off("error");
-			socket.off("history");
 		};
 	}, [
 		roomId,
@@ -134,14 +132,10 @@ export function useGameSocket(roomId: string) {
 		socket.emit("leave-room", { roomId });
 	}, [roomId]);
 
-	const handleGetHistory = useCallback(() => {
-		socket.emit("get-history", { roomId });
-	}, [roomId]);
 
 	return {
 		handleBlockSubmit,
 		handleLeaveRoom,
-		handleGetHistory,
 		handleTimeTravel,
 	};
 }

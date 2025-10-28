@@ -75,7 +75,6 @@ export type HistoryPayload = {
 
 export type ServerToClientEvents = {
 		"room-state": (data: RoomStatePayload) => void;
-		"room-update": (data: RoomUpdatePayload) => void;
 		"left-room": (data: LeftRoomPayload) => void;
 		"cell-submitted": (update: CellUpdate) => void;
 		"restriction-active": (data: RestrictionPayload) => void;
@@ -83,7 +82,6 @@ export type ServerToClientEvents = {
 		"player-joined": (player: User) => void;
 		"player-left": (player: User) => void;
 		"time-travel-update": (data: TimeTravelOutputPayload) => void;
-		"history": (data: HistoryPayload) => void;
 		error: (data: ErrorPayload) => void;
 	};
 
@@ -91,6 +89,5 @@ export type ClientToServerEvents = {
 		"join-room": (data: { roomId: string }) => void;
 		"leave-room": (data: { roomId: string }) => void;
 		"submit-block": (data: SubmitBlock) => void;
-        "get-history": (data: { roomId : string}) => void
 		"request-time-travel": (data: RequestTimeTravel) => void;
 	};

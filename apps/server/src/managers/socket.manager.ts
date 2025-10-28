@@ -3,7 +3,6 @@ import { logger } from "../utils/logger";
 import { roomManager } from "./room.manager";
 import type {
 	HandleCellUpdateCallback,
-	HandleRequestHistoryCallback,
 	HandleRequestTimeTravelCallback,
 } from "@/utils/types";
 
@@ -198,7 +197,6 @@ class SocketManager {
 		socket.on("join-room", (data) => this.handleJoinRoom(socket, data));
 		socket.on("leave-room", (data) => this.handleLeaveRoom(socket, data));
 		socket.on("submit-block", (data) => this.handleSubmitBlock(socket, data));
-		socket.on("get-history", (data) => this.handleRequestHistory(socket, data));
 		socket.on("request-time-travel", (data) =>
 			this.handleRequestTimeTravel(socket, data)
 		);
@@ -418,37 +416,6 @@ class SocketManager {
 			socket.emit("error", {
 				message: "Failed to submit block",
 				code: "SUBMIT_BLOCK_ERROR",
-			});
-		}
-	}
-
-	private handleRequestHistory(
-		socket: Socket,
-		data: HandleRequestHistoryCallback
-	) {
-		try {
-			const room = roomManager.findRoomById(data.roomId);
-
-			if (!room) {
-				socket.emit("error", {
-					message: "Room not found",
-					code: "ROOM_NOT_FOUND",
-				});
-				return;
-			}
-
-			const history = room.gameManager.getHistory();
-			socket.emit("history", history);
-		} catch (error) {
-			logger.error("Error requesting history", {
-				error,
-				socketId: socket.id,
-				userId: socket.user.userId,
-				roomId: data.roomId,
-			});
-			socket.emit("error", {
-				message: "Failed to get history",
-				code: "GET_HISTORY_ERROR",
 			});
 		}
 	}
