@@ -2,7 +2,6 @@ import morgan, { type StreamOptions } from "morgan";
 import { createLogger, format, transports } from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 import type Transport from "winston-transport";
-import { env } from "./env";
 
 const { combine, timestamp, json } = format;
 
