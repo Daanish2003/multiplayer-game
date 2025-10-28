@@ -62,7 +62,7 @@ export function EmojiGrid({
 				<CardContent className="p-2 xs:p-3 sm:p-4 md:p-6">
 					{/* Responsive grid container with max-width to prevent oversizing */}
 					<div className="mx-auto w-full max-w-[600px]">
-						<div className="grid aspect-square w-full grid-cols-10 gap-0.5 xs:gap-1 rounded-lg xs:rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 p-1.5 xs:p-2 shadow-inner sm:gap-1.5 sm:p-3 md:gap-2 md:p-4">
+						<div className="grid aspect-square w-full grid-cols-10 gap-0.5 xs:gap-1 rounded-lg xs:rounded-xl bg-linear-to-br from-slate-100 to-slate-200 p-1.5 xs:p-2 shadow-inner sm:gap-1.5 sm:p-3 md:gap-2 md:p-4">
 							{grid.map((cell) => (
 								<button
 									key={cell.id}
