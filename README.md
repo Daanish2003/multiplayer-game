@@ -84,6 +84,10 @@ pnpm dev
 
 3. To test the multiplayer functionality, open the same URL in a second browser window or a different browser. You should see the online player count update immediately.
 
+> ⚠️ Note:
+The app stores userId and userName in localStorage for teseting purpose only and send to server as token but in real system auth token are used .
+To simulate multiple players, open one tab in normal mode and another in incognito mode, or use two separate browsers.
+
 ---
 
 ## Demo
