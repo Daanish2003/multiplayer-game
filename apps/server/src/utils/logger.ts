@@ -63,7 +63,7 @@ const getInstance = (service = "general-purpose") => {
 		transports: loggerTransports,
 	});
 
-	if (env.NODE_ENV !== "production") {
+	if (process.env.NODE_ENV !== "production") {
 		logger.add(
 			new transports.Console({
 				format: format.combine(format.colorize(), format.simple()),
@@ -81,7 +81,7 @@ const getHttpLoggerInstance = () => {
 		write: (message: string) => logger.http(message.trim()),
 	};
 
-	const skip = () => env.NODE_ENV !== "development";
+	const skip = () => process.env.NODE_ENV !== "development";
 
 	return morgan(
 		":remote-addr :method :url :status :res[content-length] - :response-time ms :user-agent",
