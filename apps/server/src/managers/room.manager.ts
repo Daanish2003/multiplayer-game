@@ -28,7 +28,7 @@ export class RoomManager {
 		}
 
 		try {
-			room.playerManager.addPlayer(user, roomId);
+			room.playerManager.addPlayer(user);
 			return true;
 		} catch (error) {
 			logger.error("Error adding player to room", {
@@ -54,9 +54,9 @@ export class RoomManager {
 		return null;
 	}
 
-	findRoomByUser(socketId: string): Room | null {
+	findRoomByUser(userId: string): Room | null {
 		for (const room of this.rooms.values()) {
-			if (room.playerManager.hasPlayer(socketId)) {
+			if (room.playerManager.hasPlayer(userId)) {
 				return room;
 			}
 		}

@@ -46,9 +46,9 @@ export class GameManager {
 	// biome-ignore lint/suspicious/noExplicitAny: <>
 	private emitToPlayer(playerId: string, event: string, payload: any): boolean {
 		try {
-			const io = socketManager.getIO();
+			const socket = socketManager.getSocketByUserId(playerId); 
 
-			if (!io) {
+			if (!socket) {
 				logger.error("Socket.io not available for player emit", {
 					playerId,
 					event,
@@ -56,7 +56,7 @@ export class GameManager {
 				return false;
 			}
 
-			io.to(playerId).emit(event, payload);
+			socket.emit(event, payload);
 			return true;
 		} catch (error) {
 			logger.error("Error emitting to player", {
@@ -66,6 +66,15 @@ export class GameManager {
 			});
 			return false;
 		}
+	}
+
+	getCurrentState() {
+		return {
+			grid: this.grid,
+			history: this.history,
+			roomId: this.roomId,
+			timestamp: Date.now(),
+		};
 	}
 
 	private isValidCell(x: number, y: number): boolean {

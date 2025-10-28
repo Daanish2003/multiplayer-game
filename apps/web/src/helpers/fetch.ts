@@ -17,6 +17,11 @@ export const getUserInfo = () => {
 	return { userId };
 };
 
+export const clearUserInfo = () => {
+	localStorage.removeItem("userId");
+	localStorage.removeItem("userName");
+};
+
 
 export const setUserInfo = (userId: string, name?: string) => {
 	localStorage.setItem("userId", userId);

@@ -28,6 +28,28 @@ export type TimeTravelOutputPayload = {
 	timestamp: number;
 };
 
+export type GameState = {
+	grid: string[][];
+	history: CellUpdate[];
+	roomId: string;
+	timestamp: number;
+};
+
+export type RoomStatePayload = {
+	roomId: string;
+	gameState: GameState;
+	players: User[];
+};
+
+export type LeftRoomPayload = {
+	message: string;
+};
+
+export type PlayerJoinedPayload = User & {
+	roomId: string;
+	isReconnect: boolean;
+};
+
 
 export type SubmitBlock = {
 		x: number;
@@ -41,15 +63,29 @@ export type RequestTimeTravel = {
         roomId: string
 	};
 
-export type ServerToClientEvents = {
-	"room-update": (data: RoomUpdatePayload) => void;
-	"cell-submitted": (update: CellUpdate) => void;
-	"restriction-active": (data: RestrictionPayload) => void;
-	"restriction-disabled": (data: RestrictionPayload) => void;
-	"player-joined": (player: User) => void;
-	"player-left": (player: User) => void;
-    "time-travel-update": (data: TimeTravelOutputPayload) => void
+export type ErrorPayload = {
+	message: string
+	code?: string
 }
+
+export type HistoryPayload = {
+	history: CellUpdate[];
+	roomId: string;
+};
+
+export type ServerToClientEvents = {
+		"room-state": (data: RoomStatePayload) => void;
+		"room-update": (data: RoomUpdatePayload) => void;
+		"left-room": (data: LeftRoomPayload) => void;
+		"cell-submitted": (update: CellUpdate) => void;
+		"restriction-active": (data: RestrictionPayload) => void;
+		"restriction-disabled": (data: RestrictionPayload) => void;
+		"player-joined": (player: User) => void;
+		"player-left": (player: User) => void;
+		"time-travel-update": (data: TimeTravelOutputPayload) => void;
+		"history": (data: HistoryPayload) => void;
+		error: (data: ErrorPayload) => void;
+	};
 
 export type ClientToServerEvents = {
 		"join-room": (data: { roomId: string }) => void;

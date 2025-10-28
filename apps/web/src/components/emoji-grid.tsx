@@ -1,17 +1,16 @@
 "use client";
 
 import EmojiPicker from "emoji-picker-react";
-import { Activity, Sparkles } from "lucide-react";
+import {X } from "lucide-react";
 import { useState } from "react";
-import { Badge } from "./ui/badge";
-
+import { Card, CardContent } from "./ui/card";
+import { Button } from "./ui/button";
 
 type Cell = {
 	id: number;
 	character: string;
 	playerName?: string;
 };
-
 
 export function EmojiGrid({
 	grid,
@@ -50,69 +49,73 @@ export function EmojiGrid({
 	}
 
 	return (
-		<div className="relative">
-			<div className="rounded-2xl border-2 border-slate-200 bg-linear-to-br from-white to-slate-50 p-8 shadow-2xl">
-				<div className="mb-4 flex items-center justify-between">
-					<h2 className="flex items-center gap-2 font-bold text-slate-800 text-xl">
-						<Sparkles className="h-5 w-5 text-blue-600" />
-						Emoji Canvas
-					</h2>
-					<Badge variant="outline" className="gap-2">
-						<Activity className="h-3 w-3" />
-						{submittedCells.size} / 100 cells
-					</Badge>
+		<div className="relative space-y-3">
+			{disabled && (
+				<div className="rounded-xl border-2 border-amber-200 bg-amber-50 px-3 py-2.5 shadow-sm sm:px-4 sm:py-3">
+					<p className="text-center font-semibold text-amber-800 text-xs sm:text-sm">
+						⏳ Cooldown in progress - Please wait before placing another emoji
+					</p>
 				</div>
+			)}
 
-				<div className="grid grid-cols-10 gap-2 rounded-xl bg-linear-to-br from-slate-100 to-slate-200 p-6 shadow-inner">
-					{grid.map((cell) => (
-						<button
-							key={cell.id}
-							type="button"
-							onClick={() => handleCellClick(cell.id)}
-							onMouseEnter={() => setHoveredCell(cell.id)}
-							onMouseLeave={() => setHoveredCell(null)}
-							disabled={submittedCells.has(cell.id) || disabled}
-							className={`flex aspect-square items-center justify-center rounded-lg border-2 font-bold text-2xl transition-all duration-200 ${getCellClasses(
-								cell.id
-							)}`}
-							title={
-								cell.playerName
-									? `${cell.playerName}: ${cell.character}`
-									// biome-ignore lint/style/noNestedTernary: <>
-									: disabled
-										? "Wait for cooldown"
-										: "Click to place emoji"
-							}
+			<Card className="overflow-hidden">
+				<CardContent className="p-2 xs:p-3 sm:p-4 md:p-6">
+					{/* Responsive grid container with max-width to prevent oversizing */}
+					<div className="mx-auto w-full max-w-[600px]">
+						<div className="grid aspect-square w-full grid-cols-10 gap-0.5 xs:gap-1 rounded-lg xs:rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 p-1.5 xs:p-2 shadow-inner sm:gap-1.5 sm:p-3 md:gap-2 md:p-4">
+							{grid.map((cell) => (
+								<button
+									key={cell.id}
+									type="button"
+									onClick={() => handleCellClick(cell.id)}
+									onMouseEnter={() => setHoveredCell(cell.id)}
+									onMouseLeave={() => setHoveredCell(null)}
+									disabled={submittedCells.has(cell.id) || disabled}
+									className={`flex aspect-square w-full items-center justify-center rounded border-2 text-base xs:text-lg transition-all duration-200 sm:rounded-md sm:text-xl md:rounded-lg md:text-2xl ${getCellClasses(cell.id)}`}
+									title={
+										cell.playerName
+											? `${cell.playerName}: ${cell.character}`
+											// biome-ignore lint/style/noNestedTernary: <>
+											: disabled
+												? "Wait for cooldown"
+												: "Click to place emoji"
+									}
+								>
+									{cell.character ||
+										(hoveredCell === cell.id &&
+											!disabled &&
+											!submittedCells.has(cell.id) &&
+											"+")}
+								</button>
+							))}
+						</div>
+					</div>
+				</CardContent>
+			</Card>
+
+			{/* Responsive emoji picker modal */}
+			{selectedCell !== null && (
+				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-2 xs:p-4">
+					<div className="fade-in zoom-in relative w-full max-w-[95vw] xs:max-w-[90vw] animate-in duration-200 sm:max-w-md">
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() => setSelectedCell(null)}
+							className="-top-2 -right-2 absolute z-10 h-7 xs:h-8 w-7 xs:w-8 rounded-full p-0 shadow-lg"
 						>
-							{cell.character ||
-								(hoveredCell === cell.id &&
-									!disabled &&
-									!submittedCells.has(cell.id) &&
-									"+")}
-						</button>
-					))}
-				</div>
-
-				{selectedCell !== null && (
-					<div className="-translate-x-1/2 absolute top-full left-1/2 z-50 mt-4">
-						<div className="fade-in zoom-in animate-in duration-200">
+							<X className="h-3.5 xs:h-4 w-3.5 xs:w-4" />
+						</Button>
+						<div className="max-h-[70vh] xs:max-h-[80vh] overflow-auto rounded-lg shadow-2xl">
 							<EmojiPicker
 								onEmojiClick={(emojiData) => {
 									handleCellSubmit(selectedCell, emojiData.emoji);
 									setSelectedCell(null);
 								}}
+								width="100%"
+								// biome-ignore lint/style/noMagicNumbers: <>
+								height={Math.min(400, window.innerHeight * 0.6)}
 							/>
 						</div>
-					</div>
-				)}
-			</div>
-
-			{disabled && (
-				<div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/10 backdrop-blur-sm">
-					<div className="rounded-xl bg-white px-6 py-3 shadow-xl">
-						<p className="font-semibold text-slate-700">
-							⏳ Cooldown in progress...
-						</p>
 					</div>
 				</div>
 			)}
