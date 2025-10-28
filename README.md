@@ -76,10 +76,16 @@ The monorepo is set up to run both the client and server concurrently using a si
 
 ```bash
 pnpm dev
-
 ```
+
 1. Wait for the command to finish starting the client and server.
 
 2. Open your browser to: http://localhost:3001 (or the client's configured port).
 
 3. To test the multiplayer functionality, open the same URL in a second browser window or a different browser. You should see the online player count update immediately.
+
+---
+
+## Demo
+
+https://github.com/user-attachments/assets/6d7a660a-7913-436e-a59a-8c5234aa7e4d
