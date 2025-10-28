@@ -1,4 +1,3 @@
-import { env } from "@/lib/env";
 import { v4 as uuidv4 } from "uuid";
 
 export const getUserInfo = () => {
@@ -38,7 +37,7 @@ export const startRoom = async (name: string): Promise<string> => {
 	setUserInfo(userId, name);
 
 	const res = await fetch(
-		`${env.NEXT_PUBLIC_SERVER_URL}/api/v1/room/start-room`,
+		`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/room/start-room`,
 		{
 			method: "POST",
 			headers: { "Content-Type": "application/json" },

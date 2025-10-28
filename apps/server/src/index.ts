@@ -4,18 +4,17 @@ import express from "express";
 import http from "node:http"; // ✅ Required for socket.io
 import { Server } from "socket.io";
 import { logger } from "./utils/logger";
-import { env } from "./utils/env";
 import HTTP_STATUS from "http-status";
 import { socketManager } from "./managers/socket.manager";
 import { roomManager } from "./managers/room.manager";
 
 const app = express();
-const PORT = env.PORT;
+const PORT = process.env.PORT;
 
 
 app.use(
 	cors({
-		origin: env.CORS_ORIGIN,
+		origin: process.env.CORS_ORIGIN,
 		methods: ["GET", "POST", "OPTIONS"],
 	})
 );
@@ -54,7 +53,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
 	cors: {
-		origin: env.CORS_ORIGIN,
+		origin: process.env.CORS_ORIGIN,
 		methods: ["GET", "POST"],
 	},
 });
