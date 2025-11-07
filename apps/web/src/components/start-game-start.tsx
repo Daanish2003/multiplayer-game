@@ -1,8 +1,8 @@
 "use client"
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { startRoom } from "@/helpers/fetch";
+import { clearUserInfo, startRoom } from "@/helpers/fetch";
 import { useRouter } from "next/navigation";
 import type { Route } from "next";
 
@@ -24,6 +24,10 @@ export default function StartGameCard() {
 
 		router.push(`/room/${roomId}` as Route)
 	}
+
+	useEffect(() => {
+		clearUserInfo()
+	}, [])
 
 	return (
 		<div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-lg">
